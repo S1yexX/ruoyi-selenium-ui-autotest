@@ -1,33 +1,140 @@
-# Web Framework
+# 若依 RuoYi\-Vue Web UI 自动化测试框架
 
-This repository contains a Selenium-based web automation framework using pytest.
+**✨ 基于 pytest \+ Selenium \+ PO 模式搭建的企业级 Web UI 自动化测试框架**
 
-## Project structure
+本项目针对**若依 RuoYi\-Vue 后台管理系统**搭建标准化 UI 自动化测试工程，采用主流 **PO 分层设计模式**，解决传统 UI 脚本臃肿、维护成本高、复用性差等问题。框架封装通用浏览器操作、元素等待、异常截图、数据驱动、Allure 可视化报告，可直接用于后台系统版本迭代冒烟回归、稳定版本全量回归，适合作为简历实战开源项目。
 
-- `testcases/`: pytest test files and test data
-- `poms/`: page object models
-- `bases/`: base page classes and shared behavior
-- `commons/`: utility modules
-- `files/`: auxiliary files such as exported artifacts or attachments
-- `report/`: generated Allure report output
-- `temps/`: generated pytest/Allure temporary test results
+---
 
-## Run tests
+## 📌 技术栈
 
-Install dependencies:
+- **测试框架**：pytest（用例管理、前置后置、参数化、用例筛选）
 
-```bash
+- **UI 驱动**：Selenium 自动化浏览器操作
+
+- **设计模式**：POM 页面对象模型（分层解耦）
+
+- **数据驱动**：Excel 测试数据驱动，分离代码与测试数据
+
+- **测试报告**：Allure 高颜值可视化测试报告
+
+- **工程规范**：pytest\.ini 统一配置、模块化分层架构
+
+---
+
+## 🎯 项目核心亮点（简历/面试重点）
+
+- **标准化 PO 分层架构**：严格区分基础封装层、页面元素层、业务用例层，彻底解耦元素定位与业务逻辑，大幅提升脚本复用性和可维护性
+
+- **通用浏览器工具封装**：二次封装 Selenium 原生方法，统一处理显式等待、元素点击、输入、弹窗、iframe、页面滚动、动态加载元素，解决 UI 自动化不稳定、元素找不到问题
+
+- **Excel 数据驱动测试**：测试数据与代码分离，正向/异常场景统一配置，批量执行测试用例，高效适配多组测试数据
+
+- **失败自动截图机制**：用例执行失败自动截取当前页面，保存至本地并嵌入 Allure 报告，快速定位 bug 场景
+
+- **分层 Allure 测试报告**：支持功能模块分层展示、步骤可视化、失败截图留存、执行耗时统计，测试结果直观清晰
+
+- **高效执行机制**：全局登录 Session 复用，避免重复登录操作，提升整体测试执行效率
+
+- **工程化规范**：统一 pytest 配置、目录规范、命名规范，适配企业自动化测试项目标准
+
+---
+
+## 📁 项目架构目录
+
+架构分层清晰，完全符合企业级 UI 自动化项目规范
+
+```Plain Text
+ruoyi-ui-autotest/
+├── bases/                # 基础页面父类（核心封装层）
+│   └── base_page.py      # 封装所有通用浏览器操作、等待、截图、异常处理
+├── commons/              # 通用工具类
+│   └── excel_util.py     # Excel 数据读取、数据驱动封装
+├── poms/                 # PO 页面对象层（元素+页面独立操作）
+│   ├── login_page.py     # 登录页面元素与操作
+│   └── user_page.py      # 用户管理页面元素与操作
+├── testcases/            # 测试用例层（业务测试场景）
+│   ├── test_login.py     # 登录业务测试用例
+│   └── test_user.py     # 用户管理业务测试用例
+├── files/                # 静态资源、测试附件
+├── temps/                # Allure 临时结果目录
+├── report/               # 最终测试报告输出目录
+├── pytest.ini            # pytest 全局配置文件
+├── requirements.txt      # 项目依赖库
+└── README.md             # 项目说明文档
+
+```
+
+---
+
+## ✅ 业务功能覆盖
+
+基于若依后台管理系统核心业务场景，覆盖**正向场景、常规业务流程**：
+
+- 系统登录功能测试（正常登录、参数校验）
+
+- 用户管理列表查询、页面校验测试
+
+- 页面元素动态加载、弹窗、常规交互场景适配
+
+- 完整业务流程串联回归测试
+
+---
+
+## 🚀 快速运行指南
+
+### 1\. 安装项目依赖
+
+```Plain Text
 pip install -r requirements.txt
 ```
 
-Run pytest:
+### 2\. 执行全部自动化用例
 
-```bash
-pytest
+```Plain Text
+pytest testcases/ -v
 ```
 
-Generate Allure report:
+### 3\. 生成并打开 Allure 可视化报告
 
-```bash
-allure generate -o report -c temps
+```Plain Text
+# 生成静态报告
+allure generate temps -o report -c
+
+# 本地打开报告
+allure open report
 ```
+
+---
+
+## 📄 项目配置说明
+
+- **pytest\.ini**：统一配置用例执行路径、命名规则、日志输出、执行参数
+
+- **temps 目录**：存储 Allure 执行过程原始数据
+
+- **report 目录**：最终产出可直接打开的可视化测试报告
+
+- **commons 工具层**：统一封装通用能力，业务用例无需重复造轮子
+
+---
+
+## 💡 项目拓展方向（可持续优化）
+
+- 新增 **无头模式** 适配 CI 后台运行
+
+- 接入 GitHub Actions 实现代码提交自动回归测试
+
+- 增加用户新增、编辑、删除、角色配置全流程用例
+
+- 增加异常场景、非法入参、权限控制测试用例
+
+- 集成钉钉/邮件测试结果推送
+
+---
+
+## 👨‍💻 项目总结
+
+本项目是一套**企业标准化 UI 自动化测试解决方案**，严格遵循行业 PO 设计模式，实现了测试代码、测试数据、页面元素、通用工具的完全分层解耦。框架稳定性高、可复用性强、易于维护和拓展，完整覆盖后台系统核心业务回归场景，非常适合作为初级测试工程师简历核心实战项目。
+
+> （注：部分内容可能由 AI 生成）
