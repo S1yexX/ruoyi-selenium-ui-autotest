@@ -1,0 +1,17 @@
+# Ruff 配置文档: https://docs.astral.sh/ruff/configuration/
+line-length = 120
+target-version = "py312"
+
+[lint]
+select = [
+    "E",    # pycodestyle 错误
+    "W",    # pycodestyle 警告
+    "F",    # pyflakes（未使用的导入、未定义变量等）
+    "I",    # isort（导入排序）
+    "B",    # flake8-bugbear（常见 bug 检测）
+    "UP",   # pyupgrade（现代化语法建议）
+]
+
+[format]
+quote-style = "double"
+indent-style = "space"

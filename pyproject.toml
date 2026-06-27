@@ -1,0 +1,33 @@
+[project]
+name = "web_framwork"
+version = "0.1.0"
+description = "Web automation framework using Selenium and pytest."
+authors = [
+  { name = "Unknown", email = "unknown@example.com" }
+]
+dependencies = [
+  "selenium>=4.0",
+  "pytest>=8.0",
+  "allure-pytest>=2.0"
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+select = ["E", "W", "F", "I", "B", "UP"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.pytest.ini_options]
+addopts = "--alluredir=temps --clean-alluredir -vs"
+testpaths = ["testcases"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = ["smoke:冒烟测试"]
